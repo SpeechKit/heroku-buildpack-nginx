@@ -18,6 +18,38 @@ zlib_url=http://zlib.net/zlib-${ZLIB_VERSION}.tar.gz
 
 temp_dir=$(mktemp -d /tmp/nginx.XXXXXXXXXX)
 
+# upgrade the rest of the stack
+apt-get upgrade -y
+
+# install dev libraries to compile nginx
+# from source
+apt-get install \
+    libc6-dev \
+    libgd-dev \
+    libgeoip-dev \
+    libpcre3-dev \
+    libssl-dev \
+    -y
+
+# install luajit
+wget -O luajit.tar.gz http://luajit.org/download/LuaJIT-2.0.5.tar.gz \
+    && mkdir luajit \
+    && tar -zxf luajit.tar.gz -C luajit --strip-components=1 \
+    && cd luajit \
+    && make PREFIX=/usr/local \
+    && make install \
+    && export LUAJIT_LIB=/usr/local/lib \
+    && export LUAJIT_INC=`cd /usr/local/include/lua* && pwd` \
+    && cd $temp_dir
+
+# download lua nginx modules
+wget -O nginx.dev.tar.gz https://github.com/simpl/ngx_devel_kit/archive/v0.3.1.tar.gz \
+    && mkdir ngx_devel_kit \
+    && tar -zxf nginx.dev.tar.gz -C ngx_devel_kit --strip-components=1
+wget -O nginx.lua.tar.gz https://github.com/openresty/lua-nginx-module/archive/v0.10.19.tar.gz \
+    && mkdir lua-nginx-module \
+    && tar -zxf nginx.lua.tar.gz -C lua-nginx-module --strip-components=1
+
 cd $temp_dir
 echo "Temp dir: $temp_dir"
 
@@ -48,6 +80,8 @@ echo "Downloading $uuid4_url"
     --prefix=/tmp/nginx \
     --add-module=${temp_dir}/nginx-${NGINX_VERSION}/headers-more-nginx-module-${HEADERS_MORE_VERSION} \
     --add-module=${temp_dir}/nginx-${NGINX_VERSION}/nginx-uuid4-module-${UUID4_VERSION}
+    --add-module=${temp_dir}/nginx-${NGINX_VERSION}/ngx_devel_kit
+    --add-module=${temp_dir}/nginx-${NGINX_VERSION}/lua-nginx-module
   make install
 )
 
