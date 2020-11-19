@@ -23,7 +23,6 @@ LUAJIT_LIB_PATH=$(echo $BUILD_DIR/luajit/lib)
 LUAJIT_INC_PATH=$(echo $BUILD_DIR/luajit/include)
 
 echo 'export LUAJIT_LIB=${LUAJIT_INC_PATH}' >> $BUILD_DIR/.profile.d/lua.sh
-echo 'export LUAJIT_INC=`cd ${LUAJIT_INC_PATH}/lua* && pwd`' >> $BUILD_DIR/.profile.d/lua.sh
 
 mkdir -p "$BUILD_DIR/bin/"
 mkdir -p "$BUILD_DIR/nginx"
