@@ -37,6 +37,9 @@ echo 'buildpack=nginx at=logs-initialized'
 
 # Start nginx
 (
+  export LUAJIT_LIB=/app/luajit/lib
+  export LUAJIT_INC=/app/luajit/include/luajit-2.0
+  export LD_LIBRARY_PATH=/app/luajit/lib:$LD_LIBRARY_PATH
   #We expect nginx to run in foreground.
   #We also expect a socket to be at /tmp/nginx.socket.
   echo 'buildpack=nginx at=nginx-start'
