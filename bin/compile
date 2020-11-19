@@ -8,7 +8,6 @@ unset GIT_DIR
 # parse and derive params
 BUILD_DIR=$1
 CACHE_DIR=$2
-BUILDPACK_DIR="$(dirname "$(dirname "$0")")"
 
 wget -O luajit.tar.gz http://luajit.org/download/LuaJIT-2.0.4.tar.gz \
     && mkdir -p luajit \
