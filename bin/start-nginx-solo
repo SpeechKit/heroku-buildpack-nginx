@@ -16,6 +16,8 @@ do
   esac
 done
 
+export LD_LIBRARY_PATH=/app/luajit/lib:$LD_LIBRARY_PATH
+
 # Initialize log directory.
 mkdir -p logs/nginx
 touch logs/nginx/access.log logs/nginx/error.log
@@ -37,8 +39,10 @@ echo 'buildpack=nginx at=logs-initialized'
   echo 'nginx' >$psmgr
 ) &
 
+
+
 echo "LD_LIBRARY_PATH"
-pwd
+echo $LD_LIBRARY_PATH
 
 # This read will block the process waiting on a msg to be put into the fifo.
 # If any of the processes defined above should exit,
