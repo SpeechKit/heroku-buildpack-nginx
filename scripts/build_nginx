@@ -33,7 +33,7 @@ apt-get install \
 
 # install luajit
 wget -O luajit.tar.gz http://luajit.org/download/LuaJIT-2.0.5.tar.gz \
-    && mkdir luajit \
+    && mkdir -p luajit \
     && tar -zxf luajit.tar.gz -C luajit --strip-components=1 \
     && cd luajit \
     && make PREFIX=/usr/local \
@@ -99,7 +99,9 @@ echo "Downloading $uuid4_url"
     --with-http_ssl_module \
     --prefix=/tmp/nginx-debug \
     --add-module=${temp_dir}/nginx-${NGINX_VERSION}/headers-more-nginx-module-${HEADERS_MORE_VERSION} \
-    --add-module=${temp_dir}/nginx-${NGINX_VERSION}/nginx-uuid4-module-${UUID4_VERSION}
+    --add-module=${temp_dir}/nginx-${NGINX_VERSION}/nginx-uuid4-module-${UUID4_VERSION} \
+    --add-module=${temp_dir}/nginx-${NGINX_VERSION}/ngx_devel_kit \
+    --add-module=${temp_dir}/nginx-${NGINX_VERSION}/lua-nginx-module
   make install
 )
 
