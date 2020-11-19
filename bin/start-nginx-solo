@@ -17,6 +17,7 @@ do
 done
 
 export LD_LIBRARY_PATH=/app/luajit/lib:$LD_LIBRARY_PATH
+ls -a /app/luajit/lib
 
 # Initialize log directory.
 mkdir -p logs/nginx
