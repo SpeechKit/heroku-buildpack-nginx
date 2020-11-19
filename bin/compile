@@ -18,8 +18,12 @@ wget -O luajit.tar.gz http://luajit.org/download/LuaJIT-2.0.4.tar.gz \
     && cd ..
 
 mkdir -p $BUILD_DIR/.profile.d
-echo 'export LUAJIT_LIB=$BUILD_DIR/luajit/lib' >> $BUILD_DIR/.profile.d/lua.sh
-echo 'export LUAJIT_INC=`cd $BUILD_DIR/luajit/include/lua* && pwd`' >> $BUILD_DIR/.profile.d/lua.sh
+
+LUAJIT_LIB_PATH = $(echo $BUILD_DIR/luajit/lib)
+LUAJIT_INC_PATH = $(echo $BUILD_DIR/luajit/include)
+
+echo 'export LUAJIT_LIB=${LUAJIT_INC_PATH}' >> $BUILD_DIR/.profile.d/lua.sh
+echo 'export LUAJIT_INC=`cd ${LUAJIT_INC_PATH}/lua* && pwd`' >> $BUILD_DIR/.profile.d/lua.sh
 
 mkdir -p "$BUILD_DIR/bin/"
 mkdir -p "$BUILD_DIR/nginx"
