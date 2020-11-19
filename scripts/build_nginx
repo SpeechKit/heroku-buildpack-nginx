@@ -32,7 +32,7 @@ apt-get install \
     -y
 
 # install luajit
-wget -O luajit.tar.gz http://luajit.org/download/LuaJIT-2.0.5.tar.gz \
+wget -O luajit.tar.gz http://luajit.org/download/LuaJIT-2.0.4.tar.gz \
     && mkdir -p luajit \
     && tar -zxf luajit.tar.gz -C luajit --strip-components=1 \
     && cd luajit \

@@ -10,6 +10,19 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 BUILDPACK_DIR="$(dirname "$(dirname "$0")")"
 
+wget -O luajit.tar.gz http://luajit.org/download/LuaJIT-2.0.4.tar.gz \
+    && mkdir -p luajit \
+    && tar -zxf luajit.tar.gz -C luajit --strip-components=1 \
+    && cd luajit \
+    && make PREFIX=$BUILD_DIR/luajit install \
+    && make install \
+    && export LUAJIT_LIB=$BUILD_DIR/luajit/lib \
+    && export LUAJIT_INC=`cd $BUILD_DIR/luajit/include/lua* && pwd`
+
+mkdir -p $BUILD_DIR/.profile.d
+echo "PATH="$PATH > $BUILD_DIR/.profile.d/lua.sh
+echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/app/luajit/lib' >> $BUILD_DIR/.profile.d/lua.sh
+
 mkdir -p "$BUILD_DIR/bin/"
 mkdir -p "$BUILD_DIR/nginx"
 tar -zxvf "nginx-$STACK".tgz -C "$BUILD_DIR/nginx"
