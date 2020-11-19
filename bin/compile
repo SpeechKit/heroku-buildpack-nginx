@@ -17,6 +17,7 @@ wget -O luajit.tar.gz http://luajit.org/download/LuaJIT-2.0.4.tar.gz \
     && make PREFIX=$BUILD_DIR/luajit install \
     && cd ..
 
+mkdir -p $BUILD_DIR/.profile.d
 echo 'export LUAJIT_LIB=$BUILD_DIR/luajit/lib' >> $BUILD_DIR/.profile.d/lua.sh
 echo 'export LUAJIT_INC=`cd $BUILD_DIR/luajit/include/lua* && pwd`' >> $BUILD_DIR/.profile.d/lua.sh
 
