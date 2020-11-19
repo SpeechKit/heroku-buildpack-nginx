@@ -42,14 +42,6 @@ wget -O luajit.tar.gz http://luajit.org/download/LuaJIT-2.0.5.tar.gz \
     && export LUAJIT_INC=`cd /usr/local/include/lua* && pwd` \
     && cd $temp_dir
 
-# download lua nginx modules
-wget -O nginx.dev.tar.gz https://github.com/simpl/ngx_devel_kit/archive/v0.3.1.tar.gz \
-    && mkdir ngx_devel_kit \
-    && tar -zxf nginx.dev.tar.gz -C ngx_devel_kit --strip-components=1
-wget -O nginx.lua.tar.gz https://github.com/openresty/lua-nginx-module/archive/v0.10.19.tar.gz \
-    && mkdir lua-nginx-module \
-    && tar -zxf nginx.lua.tar.gz -C lua-nginx-module --strip-components=1
-
 cd $temp_dir
 echo "Temp dir: $temp_dir"
 
@@ -68,6 +60,16 @@ echo "Downloading $zlib_url"
 echo "Downloading $uuid4_url"
 (cd nginx-${NGINX_VERSION} && curl -L $uuid4_url | tar xvz )
 
+# download lua nginx modules
+(cd nginx-${NGINX_VERSION} && wget -O nginx.dev.tar.gz https://github.com/simpl/ngx_devel_kit/archive/v0.3.1.tar.gz \
+    && mkdir ngx_devel_kit \
+    && ls -a \
+    && tar -zxf nginx.dev.tar.gz -C ngx_devel_kit --strip-components=1 )
+(cd nginx-${NGINX_VERSION} && wget -O nginx.lua.tar.gz https://github.com/openresty/lua-nginx-module/archive/v0.10.19.tar.gz \
+    && mkdir lua-nginx-module \
+    && ls -a \
+    && tar -zxf nginx.lua.tar.gz -C lua-nginx-module --strip-components=1 )
+
 # This will build `nginx`
 (
   cd nginx-${NGINX_VERSION}
@@ -79,8 +81,8 @@ echo "Downloading $uuid4_url"
     --with-http_ssl_module \
     --prefix=/tmp/nginx \
     --add-module=${temp_dir}/nginx-${NGINX_VERSION}/headers-more-nginx-module-${HEADERS_MORE_VERSION} \
-    --add-module=${temp_dir}/nginx-${NGINX_VERSION}/nginx-uuid4-module-${UUID4_VERSION}
-    --add-module=${temp_dir}/nginx-${NGINX_VERSION}/ngx_devel_kit
+    --add-module=${temp_dir}/nginx-${NGINX_VERSION}/nginx-uuid4-module-${UUID4_VERSION} \
+    --add-module=${temp_dir}/nginx-${NGINX_VERSION}/ngx_devel_kit \
     --add-module=${temp_dir}/nginx-${NGINX_VERSION}/lua-nginx-module
   make install
 )
