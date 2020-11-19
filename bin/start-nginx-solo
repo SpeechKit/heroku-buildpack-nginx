@@ -19,6 +19,10 @@ done
 export LD_LIBRARY_PATH=/app/luajit/lib:$LD_LIBRARY_PATH
 ls -a /app/luajit/lib
 
+echo "LD_LIBRARY_PATH"
+echo $LD_LIBRARY_PATH
+echo $CHECK_ENV
+
 # Initialize log directory.
 mkdir -p logs/nginx
 touch logs/nginx/access.log logs/nginx/error.log
@@ -39,11 +43,6 @@ echo 'buildpack=nginx at=logs-initialized'
   bin/nginx -p . -c config/nginx.conf
   echo 'nginx' >$psmgr
 ) &
-
-
-
-echo "LD_LIBRARY_PATH"
-echo $LD_LIBRARY_PATH
 
 # This read will block the process waiting on a msg to be put into the fifo.
 # If any of the processes defined above should exit,
