@@ -15,7 +15,6 @@ wget -O luajit.tar.gz http://luajit.org/download/LuaJIT-2.0.4.tar.gz \
     && tar -zxf luajit.tar.gz -C luajit --strip-components=1 \
     && cd luajit \
     && make PREFIX=$BUILD_DIR/luajit install \
-    && make install \
     && export LUAJIT_LIB=$BUILD_DIR/luajit/lib \
     && export LUAJIT_INC=`cd $BUILD_DIR/luajit/include/lua* && pwd`
 
